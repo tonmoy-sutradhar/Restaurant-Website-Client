@@ -12,6 +12,7 @@ const PopularMenu = () => {
         setMenu(popularData);
       });
   }, []);
+
   return (
     <section className="mb-12">
       <SectionTitle
