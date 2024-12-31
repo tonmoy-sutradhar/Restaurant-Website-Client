@@ -13,7 +13,7 @@ const MenuCategory = ({ items, title, CvrImg }) => {
         ))}
       </div>
       {/* to={`/order/${title}`} */}
-      <Link to="/order">
+      <Link to={`/order/${title}`}>
         <button className="btn btn-outline border-0 border-b-4 mt-4">
           Order Now
         </button>
