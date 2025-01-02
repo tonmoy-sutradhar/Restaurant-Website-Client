@@ -5,3 +5,5 @@
 # npm i react-parallax
 
 # react-simple-captcha
+
+# npm install react-hook-form
