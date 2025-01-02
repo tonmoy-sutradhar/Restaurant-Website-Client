@@ -3,13 +3,16 @@ import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-  const { createUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { createUser, updateUserProfile } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -18,23 +21,32 @@ const SignUp = () => {
       const user = result.user;
       console.log(user);
 
-      Swal.fire({
-        title: "SignUp Successful",
-        showClass: {
-          popup: `
-            animate__animated
-            animate__fadeInUp
-            animate__faster
-          `,
-        },
-        hideClass: {
-          popup: `
-            animate__animated
-            animate__fadeOutDown
-            animate__faster
-          `,
-        },
-      });
+      updateUserProfile(data.name, data.photo)
+        .then(() => {
+          console.log("user name and phot update");
+          reset();
+          Swal.fire({
+            title: "SignUp Successful",
+            showClass: {
+              popup: `
+                animate__animated
+                animate__fadeInUp
+                animate__faster
+              `,
+            },
+            hideClass: {
+              popup: `
+                animate__animated
+                animate__fadeOutDown
+                animate__faster
+              `,
+            },
+          });
+          navigate("/");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     });
     console.log(data);
   };
@@ -69,6 +81,22 @@ const SignUp = () => {
                   // required
                 />
                 {errors.name && (
+                  <span className="text-red-500">Name is required</span>
+                )}
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Photo URL</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="photo URL"
+                  name="photo"
+                  {...register("photo", { required: true })}
+                  className="input input-bordered"
+                  // required
+                />
+                {errors.photo && (
                   <span className="text-red-500">Name is required</span>
                 )}
               </div>
@@ -121,6 +149,14 @@ const SignUp = () => {
                 <button className="btn btn-primary">Sign UP</button>
               </div>
             </form>
+            <p className="text-center">
+              <small>
+                All ready have an account{" "}
+                <Link className="text-blue-500" to="/login">
+                  Login
+                </Link>
+              </small>
+            </p>
           </div>
         </div>
       </div>
