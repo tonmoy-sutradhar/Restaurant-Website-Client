@@ -38,7 +38,7 @@ const Navbar = () => {
         <NavLink to="/secret">Secret</NavLink>
       </li>
       <li>
-        <Link>
+        <Link to="/dashboard/cart">
           <button className="btn">
             <FaShoppingCart className="mr-2"></FaShoppingCart>
             <div className="badge badge-secondary">+{cart.length}</div>
@@ -64,8 +64,8 @@ const Navbar = () => {
   );
   return (
     <>
-      <div className="navbar fixed z-10 opacity-30 max-w-screen-xl  mx-auto bg-black text-white ">
-        <div className="navbar-start">
+      <div className="navbar fixed z-10 opacity-25  max-w-screen-xl  mx-auto bg-black text-white ">
+        <div className="navbar-start ">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
               <svg
