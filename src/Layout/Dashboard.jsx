@@ -15,12 +15,13 @@ import { TiThMenu } from "react-icons/ti";
 import { FaBagShopping } from "react-icons/fa6";
 import { MdOutlineContactPhone } from "react-icons/md";
 import UseCart from "../hooks/UseCart";
+import UseAdmin from "../hooks/UseAdmin";
 
 const Dashboard = () => {
   const [cart] = UseCart();
 
   // TODO: get isAdmin value from database
-  const isAdmin = true;
+  const [isAdmin] = UseAdmin();
 
   return (
     <div className="flex">
