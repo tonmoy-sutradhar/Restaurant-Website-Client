@@ -11,6 +11,8 @@ import {
   updateProfile,
 } from "firebase/auth";
 import app from "../firebase/firebase";
+import UseAxiosPublic from "../hooks/UseAxiosPublic";
+import { removeItem } from "localforage";
 
 export const AuthContext = createContext();
 export const auth = getAuth(app);
@@ -19,6 +21,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const googleProvider = new GoogleAuthProvider();
+  const axiosPublic = UseAxiosPublic();
 
   // SignUP
   const createUser = (email, password) => {
@@ -35,7 +38,7 @@ const AuthProvider = ({ children }) => {
   // Google signIn
   const googleSignIn = () => {
     setLoading(true);
-    return signInWithPopup();
+    return signInWithPopup(auth, googleProvider);
   };
 
   // Update Profile
@@ -56,6 +59,22 @@ const AuthProvider = ({ children }) => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       console.log("Current user --> ", currentUser);
+
+      // User entry condition --->
+      if (currentUser) {
+        // get token and store client side
+        const userInfo = {
+          email: user?.email,
+        };
+        axiosPublic.post("/jwt", userInfo).then((res) => {
+          if (res.data.token) {
+            localStorage.setItem("access-token", res.data.token);
+          }
+        });
+      } else {
+        // TODO: remove token (if token stored in the client side)
+        localStorage.removeItem("access-token");
+      }
       setLoading(false);
     });
     return () => {

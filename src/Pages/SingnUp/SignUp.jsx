@@ -10,7 +10,8 @@ import SocialLogin from "../../Components/SocialLogin/SocialLogin";
 const SignUp = () => {
   const axiosPublic = UseAxiosPublic();
   const navigate = useNavigate();
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const { createUser, updateUserProfile, googleSignIn } =
+    useContext(AuthContext);
   const {
     register,
     handleSubmit,
